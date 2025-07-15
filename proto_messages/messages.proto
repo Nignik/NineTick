@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+enum MessageType {
+  PLAYER_JOIN_REQUEST = 0;
+}
+
+message NetworkMessage {
+  MessageType type = 1;
+  oneof payload {
+    PlayerJoinRequest player_join_request = 2;
+  }
+}
+
+message PlayerJoinRequest {
+  string id = 1;
+}
