@@ -9,7 +9,8 @@ public static class MessageFactory
     {
         var joinMsg = new PlayerJoinRequest
         {
-            PlayerId = playerId
+            PlayerId = playerId,
+            GameId = "newGame"
         };
 
         return new NetworkMessage
@@ -19,14 +20,14 @@ public static class MessageFactory
         };
     }
 
-    public static NetworkMessage CreatePlayerMoveMessage(string playerId, PlayerColor playerColor, Vector2I tileCoords)
+    public static NetworkMessage CreatePlayerMoveMessage(string playerId, PlayerColor playerColor, int row, int col)
     {
         var moveMsg = new PlayerMove
         {
             PlayerId = playerId,
             PlayerColor = playerColor,
-            TileX = (uint)tileCoords.X,
-            TileY = (uint)tileCoords.Y
+            TileRow = row,
+            TileCol = col
         };
 
         return new NetworkMessage

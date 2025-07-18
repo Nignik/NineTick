@@ -26,6 +26,7 @@ message NetworkMessage {
 
 message PlayerJoinRequest {
   string player_id = 1;
+  string game_id = 2;
 }
 
 message PlayerJoinApproved {
@@ -36,10 +37,10 @@ message PlayerJoinApproved {
 message PlayerMove {
   string player_id = 1;
   PlayerColor player_color = 2;
-  uint32 tile_x = 3;
-  uint32 tile_y = 4;
+  int32 tile_row = 3;
+  int32 tile_col = 4;
 }
 
 message PlayerDisconnect {
-  uint32 player_id = 1;
+  string player_id = 1;
 }

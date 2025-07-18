@@ -6,47 +6,49 @@ using Google.Protobuf;
 
 public partial class Client : Node
 {
-    [Export] private Game _game;
+    private GameLogic _game;
+    private WebSocketPeer _socket;
+    private bool _connected = false;
+    private string _serverUrl = "ws://localhost:3000";
+    private string _playerId = "maks";
 
-    private WebSocketPeer socket;
-    private bool connected = false;
-    private string serverUrl = "ws://localhost:3000";
+    [Signal] public delegate void PlayerMoveSignalEventHandler(int row, int col, int color);
 
     public override void _Ready()
     {
-        socket = new WebSocketPeer();
+        _socket = new WebSocketPeer();
         ConnectToServer();
     }
 
     public override void _ExitTree()
     {
-        if (connected)
+        if (_connected)
         {
-            socket.Close();
+            _socket.Close();
         }
     }
 
     public override void _Process(double delta)
     {
-        socket.Poll();
+        _socket.Poll();
 
-        WebSocketPeer.State state = socket.GetReadyState();
+        WebSocketPeer.State state = _socket.GetReadyState();
 
         switch (state)
         {
             case WebSocketPeer.State.Open:
-                if (!connected)
+                if (!_connected)
                 {
-                    connected = true;
+                    _connected = true;
                     GD.Print("Connected to WebSocket server!");
 
-                    NetworkMessage msg = MessageFactory.CreatePlayerJoinRequestMessage("maks");
+                    NetworkMessage msg = MessageFactory.CreatePlayerJoinRequestMessage(_playerId);
                     SendMessage(msg);
                 }
 
-                while (socket.GetAvailablePacketCount() > 0)
+                while (_socket.GetAvailablePacketCount() > 0)
                 {
-                    byte[] packet = socket.GetPacket();
+                    byte[] packet = _socket.GetPacket();
                     NetworkMessage msg = NetworkMessage.Parser.ParseFrom(packet);
                     HandleMessage(msg);
                 }
@@ -57,7 +59,7 @@ public partial class Client : Node
                 break;
 
             case WebSocketPeer.State.Closed:
-                connected = false;
+                _connected = false;
                 break;
 
             case WebSocketPeer.State.Connecting:
@@ -67,7 +69,7 @@ public partial class Client : Node
 
     public void SendMessage(NetworkMessage msg)
     {
-        socket.Send(msg.ToByteArray());
+        _socket.Send(msg.ToByteArray());
     }
 
     private void HandleMessage(NetworkMessage msg)
@@ -76,20 +78,34 @@ public partial class Client : Node
 
         switch (msg.Type)
         {
+            case MessageType.PlayerJoinApproved:
+                PlayerJoinApproved joinApprovedMsg = msg.PlayerJoinApproved;
+                GD.Print($"Player join for {_playerId} has been approved");
+                if (joinApprovedMsg.PlayerColor == PlayerColor.White)
+                    _game.SetMoving(true);
+
+                break;
             case MessageType.PlayerMove:
-                _game.SetMoving(false);
+                PlayerMove moveMsg = msg.PlayerMove;
+                GD.Print($"Player {moveMsg.PlayerId} the move: {moveMsg.TileRow}, {moveMsg.TileCol}");
+                if (_playerId != moveMsg.PlayerId)
+                {
+                    EmitSignal(SignalName.PlayerMoveSignal, moveMsg.TileRow, moveMsg.TileCol, (int)moveMsg.PlayerColor);
+                 
+                }
+                
                 break;
         }
     }
 
     public bool IsConnected()
     {
-        return connected;
+        return _connected;
     }
 
     private void ConnectToServer()
     {
-        Error error = socket.ConnectToUrl(serverUrl);
+        Error error = _socket.ConnectToUrl(_serverUrl);
 
         if (error != Error.Ok)
         {
@@ -97,6 +113,6 @@ public partial class Client : Node
             return;
         }
 
-        GD.Print($"Attempting to connect to {serverUrl}");
+        GD.Print($"Attempting to connect to {_serverUrl}");
     }
 }

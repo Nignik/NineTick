@@ -1,10 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://coft68akqyr0w"]
+[gd_scene load_steps=7 format=3 uid="uid://coft68akqyr0w"]
 
 [ext_resource type="Texture2D" uid="uid://kexrghlobjx6" path="res://textures/background_texture.png" id="1_nd4as"]
 [ext_resource type="Script" uid="uid://t0xcldwvfd4g" path="res://scripts/Game.cs" id="1_otxgx"]
 [ext_resource type="PackedScene" uid="uid://rmkot18ivqs6" path="res://blueprints/board.tscn" id="2_3ng4l"]
 [ext_resource type="Script" uid="uid://cflubf12nhjwa" path="res://scripts/Board.cs" id="6_6pldg"]
-[ext_resource type="Script" uid="uid://bf45o0hsq8gag" path="res://scripts/Client.cs" id="6_grdf5"]
 [ext_resource type="PackedScene" uid="uid://ce32m3k2neney" path="res://blueprints/tile.tscn" id="7_vewne"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_iixfe"]
@@ -24,6 +23,3 @@ position = Vector2(300, 100)
 scale = Vector2(3, 3)
 script = ExtResource("6_6pldg")
 TileScene = ExtResource("7_vewne")
-
-[node name="Client" type="Node" parent="."]
-script = ExtResource("6_grdf5")
