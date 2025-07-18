@@ -3,16 +3,15 @@
 [ext_resource type="Texture2D" uid="uid://kexrghlobjx6" path="res://textures/background_texture.png" id="1_nd4as"]
 [ext_resource type="Script" uid="uid://t0xcldwvfd4g" path="res://scripts/Game.cs" id="1_otxgx"]
 [ext_resource type="PackedScene" uid="uid://rmkot18ivqs6" path="res://blueprints/board.tscn" id="2_3ng4l"]
-[ext_resource type="Texture2D" uid="uid://bqbsx7133hmbe" path="res://textures/white_stone.png" id="2_k0g80"]
-[ext_resource type="Texture2D" uid="uid://co8nlvd23f6qa" path="res://textures/black_stone.png" id="3_grdf5"]
+[ext_resource type="Script" uid="uid://cflubf12nhjwa" path="res://scripts/Board.cs" id="6_6pldg"]
 [ext_resource type="Script" uid="uid://bf45o0hsq8gag" path="res://scripts/Client.cs" id="6_grdf5"]
+[ext_resource type="PackedScene" uid="uid://ce32m3k2neney" path="res://blueprints/tile.tscn" id="7_vewne"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_iixfe"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("_board")]
 script = ExtResource("1_otxgx")
-whiteStone = ExtResource("2_k0g80")
-blackStone = ExtResource("3_grdf5")
+_board = NodePath("Board")
 
 [node name="background" type="MeshInstance2D" parent="."]
 position = Vector2(577.75, 325.25)
@@ -21,8 +20,10 @@ mesh = SubResource("QuadMesh_iixfe")
 texture = ExtResource("1_nd4as")
 
 [node name="Board" parent="." instance=ExtResource("2_3ng4l")]
-position = Vector2(583, 325)
+position = Vector2(300, 100)
 scale = Vector2(3, 3)
+script = ExtResource("6_6pldg")
+TileScene = ExtResource("7_vewne")
 
 [node name="Client" type="Node" parent="."]
 script = ExtResource("6_grdf5")

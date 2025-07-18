@@ -6,6 +6,8 @@ using Google.Protobuf;
 
 public partial class Client : Node
 {
+    [Export] private Game _game;
+
     private WebSocketPeer socket;
     private bool connected = false;
     private string serverUrl = "ws://localhost:3000";
@@ -45,9 +47,8 @@ public partial class Client : Node
                 while (socket.GetAvailablePacketCount() > 0)
                 {
                     byte[] packet = socket.GetPacket();
-                    string message = System.Text.Encoding.UTF8.GetString(packet);
-                    GD.Print($"Received: {message}");
-                    HandleMessage(message);
+                    NetworkMessage msg = NetworkMessage.Parser.ParseFrom(packet);
+                    HandleMessage(msg);
                 }
                 break;
 
@@ -56,9 +57,6 @@ public partial class Client : Node
                 break;
 
             case WebSocketPeer.State.Closed:
-                int code = socket.GetCloseCode();
-                string reason = socket.GetCloseReason();
-                GD.Print($"Connection closed with code: {code} reason: {reason}");
                 connected = false;
                 break;
 
@@ -72,29 +70,23 @@ public partial class Client : Node
         socket.Send(msg.ToByteArray());
     }
 
+    private void HandleMessage(NetworkMessage msg)
+    {
+        GD.Print($"Handling message: {msg}");
+
+        switch (msg.Type)
+        {
+            case MessageType.PlayerMove:
+                _game.SetMoving(false);
+                break;
+        }
+    }
+
     public bool IsConnected()
     {
         return connected;
     }
 
-    private void HandleMessage(string message)
-    {
-        // Handle incoming messages from your C++ server
-        GD.Print($"Handling message: {message}");
-
-        // You can parse JSON messages here if needed
-        // Example with Godot's JSON parser:
-        /*
-        var json = new Json();
-        Error parseResult = json.Parse(message);
-        if (parseResult == Error.Ok)
-        {
-            Variant data = json.Data;
-            // Handle the parsed data
-            GD.Print($"Parsed JSON: {data}");
-        }
-        */
-    }
     private void ConnectToServer()
     {
         Error error = socket.ConnectToUrl(serverUrl);
