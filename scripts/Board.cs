@@ -27,7 +27,6 @@ public partial class Board : Node
                 _tiles[r, c].Initialize(r, c);
 
                 AddChild(_tiles[r, c]);
-                _tiles[r, c].Clicked += OnTileClicked;
             }
         }
 
@@ -41,12 +40,6 @@ public partial class Board : Node
         for (int r = 0; r < 3; r++)
             for (int c = 0; c < 3; c++)
                 _blockColors[r, c] = PlayerColor.None;
-    }
-
-    private void OnTileClicked(Tile tile)
-    {
-        _tileColors[tile.row, tile.col] = PlayerColor.Black;
-        tile.SetColor(PlayerColor.Black);
     }
 
     public Tile[,] GetTiles()

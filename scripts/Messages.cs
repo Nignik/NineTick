@@ -32,7 +32,7 @@ public static class MessageFactory
 
         return new NetworkMessage
         {
-            Type = MessageType.PlayerJoinRequest,
+            Type = MessageType.PlayerMove,
             PlayerMove = moveMsg
         };
     }

@@ -6,12 +6,12 @@ using Google.Protobuf;
 
 public partial class Client : Node
 {
-    private GameLogic _game;
     private WebSocketPeer _socket;
     private bool _connected = false;
     private string _serverUrl = "ws://localhost:3000";
     private string _playerId = "maks";
 
+    [Signal] public delegate void PlayerJoinApprovedSignalEventHandler(string playerId, int playerColor);
     [Signal] public delegate void PlayerMoveSignalEventHandler(int row, int col, int color);
 
     public override void _Ready()
@@ -81,9 +81,7 @@ public partial class Client : Node
             case MessageType.PlayerJoinApproved:
                 PlayerJoinApproved joinApprovedMsg = msg.PlayerJoinApproved;
                 GD.Print($"Player join for {_playerId} has been approved");
-                if (joinApprovedMsg.PlayerColor == PlayerColor.White)
-                    _game.SetMoving(true);
-
+                EmitSignal(SignalName.PlayerJoinApprovedSignal, joinApprovedMsg.PlayerId, (int)joinApprovedMsg.PlayerColor);
                 break;
             case MessageType.PlayerMove:
                 PlayerMove moveMsg = msg.PlayerMove;
@@ -91,9 +89,7 @@ public partial class Client : Node
                 if (_playerId != moveMsg.PlayerId)
                 {
                     EmitSignal(SignalName.PlayerMoveSignal, moveMsg.TileRow, moveMsg.TileCol, (int)moveMsg.PlayerColor);
-                 
                 }
-                
                 break;
         }
     }

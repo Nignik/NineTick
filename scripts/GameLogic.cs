@@ -6,9 +6,9 @@ public partial class GameLogic : Node
     private Client _client;
     private Board _board;
 
-    private bool _isMoving = true;
+    private bool _isMoving = false;
     private string _playerId = "";
-    private PlayerColor _playerColor = PlayerColor.White;
+    private PlayerColor _playerColor = PlayerColor.None;
 
     private static readonly (int r, int c)[][] WinLines = {
 		// Rows
@@ -35,12 +35,8 @@ public partial class GameLogic : Node
         foreach (Tile tile in _board.GetTiles())
             tile.Clicked += OnTileClicked;
 
+        _client.PlayerJoinApprovedSignal += OnPlayerJoinApproved;
         _client.PlayerMoveSignal += OnPlayerMove;
-    }
-
-    public void Move(int row, int col, PlayerColor color)
-    {
-        _board.PaintTile(row, col, color);
     }
 
     public void ProcessMove()
@@ -65,9 +61,9 @@ public partial class GameLogic : Node
             GD.Print("Game eneded");
     }
 
-    public void SetMoving(bool isMoving)
+    private void Move(int row, int col, PlayerColor color)
     {
-        _isMoving = isMoving;
+        _board.PaintTile(row, col, color);
     }
 
     private PlayerColor CheckBlock(PlayerColor[,] block)
@@ -99,10 +95,19 @@ public partial class GameLogic : Node
         return PlayerColor.Mix;
     }
 
+    private void OnPlayerJoinApproved(string playerId, int playerColor)
+    {
+        _playerColor = (PlayerColor)playerColor;
+        if (_playerColor == PlayerColor.White)
+            _isMoving = true;
+    }
+
     private void OnPlayerMove(int row, int col, int color)
     {
         Move(row, col, (PlayerColor)color);
-        SetMoving(true);
+        ProcessMove();
+        if ((PlayerColor)color != _playerColor)
+            _isMoving = true;
     }
 
     private void OnTileClicked(Tile tile)
@@ -110,9 +115,9 @@ public partial class GameLogic : Node
         if (_isMoving)
         {
             Move(tile.row, tile.col, _playerColor);
+            _isMoving = false;
             NetworkMessage msg = MessageFactory.CreatePlayerMoveMessage(_playerId, _playerColor, tile.row, tile.col);
             _client.SendMessage(msg);
-            _isMoving = false;
         }
     }
 }
