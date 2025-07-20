@@ -4,12 +4,12 @@ A feature‑incomplete implementation of **Ultimate Tic‑Tac‑Toe** built wi
 
 ## 🌐 Online Multiplayer
 
-It is possible to play online, to do that you need to run the server <https://github.com/Nignik/NineTickServer>
+It is possible to play online, you need to run the server <https://github.com/Nignik/NineTickServer>
 
 ## 📜 Rulebook
 
 You are given a 3 × 3 grid of **macro‑boards**.  
-Each macro‑board contains its own 3 × 3 **micro‑board**.  
+Each macro‑board contains its own 3 × 3 **micro‑board**.
 Players **black** and **white** alternate turns, starting with **white**.
 
 On your turn you must select a tile on the micro-board.
