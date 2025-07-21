@@ -19,7 +19,6 @@ mesh = SubResource("QuadMesh_iixfe")
 texture = ExtResource("1_nd4as")
 
 [node name="Board" parent="." instance=ExtResource("2_3ng4l")]
-position = Vector2(300, 100)
 scale = Vector2(3, 3)
 script = ExtResource("6_6pldg")
 TileScene = ExtResource("7_vewne")
