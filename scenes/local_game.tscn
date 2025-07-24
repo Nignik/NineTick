@@ -12,9 +12,10 @@
 
 [node name="LocalGameScene" type="Node2D"]
 
-[node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("_board")]
+[node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("_board", "_overlayUi")]
 script = ExtResource("1_owj2l")
 _board = NodePath("Board")
+_overlayUi = NodePath("../OverlayUi")
 
 [node name="background" type="MeshInstance2D" parent="Game"]
 position = Vector2(577.75, 325.25)
@@ -27,9 +28,10 @@ scale = Vector2(3, 3)
 script = ExtResource("4_5gdjf")
 TileScene = ExtResource("5_muokb")
 
-[node name="OverlayUi" type="CanvasLayer" parent="."]
+[node name="OverlayUi" type="CanvasLayer" parent="." node_paths=PackedStringArray("SaveGameRecord")]
 visible = false
 script = ExtResource("6_h1y6c")
+SaveGameRecord = NodePath("Control/VBoxContainer/Margin/SaveGameRecord")
 
 [node name="ColorRect" type="ColorRect" parent="OverlayUi"]
 offset_right = 1155.0

@@ -3,6 +3,8 @@ using System;
 
 public partial class OverlayUi : CanvasLayer
 {
+    [Export] public Button SaveGameRecord;
+
     public override void _Ready()
     {
         base._Ready();

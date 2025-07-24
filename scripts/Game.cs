@@ -6,6 +6,7 @@ using System.Diagnostics.Tracing;
 public partial class Game : Node
 {
 	[Export] private Board _board;
+	[Export] private OverlayUi _overlayUi;
 	[Export] private bool _online;
 	private Client _client;
 	private GameLogic _logic;
@@ -23,6 +24,7 @@ public partial class Game : Node
 			_logic = new LocalGameLogic(_board);
 		}
 
+		_overlayUi.SaveGameRecord.Pressed += () => GameRecorder.SaveGameRecord(_logic.MovesRecord);
 		AddChild(_logic);
 	}
 
