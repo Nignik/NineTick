@@ -8,7 +8,6 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7qadf"]
 
 [node name="tile" type="Area2D" node_paths=PackedStringArray("_sprite")]
-position = Vector2(10, 10)
 script = ExtResource("1_2l4qr")
 _sprite = NodePath("Sprite2D")
 _whiteStone = ExtResource("2_bnko0")

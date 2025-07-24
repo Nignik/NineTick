@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://10qmdnl76xaj"]
 
 [ext_resource type="Script" uid="uid://cgkbpx48mwphr" path="res://scripts/TitleScreen.cs" id="1_ig5kc"]
-[ext_resource type="PackedScene" uid="uid://coft68akqyr0w" path="res://OnlineGame.tscn" id="2_05l2w"]
-[ext_resource type="Theme" uid="uid://bp05q8geqroin" path="res://base_theme.tres" id="2_ak2if"]
-[ext_resource type="PackedScene" uid="uid://b6di5njnm67r3" path="res://LocalGame.tscn" id="3_05l2w"]
+[ext_resource type="PackedScene" uid="uid://coft68akqyr0w" path="res://scenes/online_game.tscn" id="2_05l2w"]
+[ext_resource type="Theme" uid="uid://bp05q8geqroin" path="res://themes/base_theme.tres" id="2_ak2if"]
+[ext_resource type="PackedScene" uid="uid://b6di5njnm67r3" path="res://scenes/local_game.tscn" id="3_05l2w"]
 
 [node name="TitleScreen" type="Control" node_paths=PackedStringArray("_playOnlineButton", "_playLocallyButton", "_quitButton")]
 layout_mode = 3
@@ -21,8 +21,8 @@ _quitButton = NodePath("VBoxContainer/QuitMargin/Quit")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 1144.0
-offset_bottom = 654.0
+offset_right = 1153.0
+offset_bottom = 650.0
 color = Color(0.0322131, 0.0188401, 0.0104043, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
