@@ -1,24 +1,63 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6di5njnm67r3"]
+[gd_scene load_steps=9 format=3 uid="uid://b6di5njnm67r3"]
 
 [ext_resource type="Script" uid="uid://t0xcldwvfd4g" path="res://scripts/Game.cs" id="1_owj2l"]
 [ext_resource type="Texture2D" uid="uid://kexrghlobjx6" path="res://textures/background_texture.png" id="2_7ak5k"]
 [ext_resource type="PackedScene" uid="uid://rmkot18ivqs6" path="res://blueprints/board.tscn" id="3_h1y6c"]
 [ext_resource type="Script" uid="uid://cflubf12nhjwa" path="res://scripts/Board.cs" id="4_5gdjf"]
 [ext_resource type="PackedScene" uid="uid://ce32m3k2neney" path="res://blueprints/tile.tscn" id="5_muokb"]
+[ext_resource type="Theme" uid="uid://bp05q8geqroin" path="res://themes/base_theme.tres" id="6_7ak5k"]
+[ext_resource type="Script" uid="uid://cc4khtheuw52k" path="res://scripts/OverlayUi.cs" id="6_h1y6c"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_dw630"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("_board")]
+[node name="LocalGameScene" type="Node2D"]
+
+[node name="Game" type="Node2D" parent="." node_paths=PackedStringArray("_board")]
 script = ExtResource("1_owj2l")
 _board = NodePath("Board")
 
-[node name="background" type="MeshInstance2D" parent="."]
+[node name="background" type="MeshInstance2D" parent="Game"]
 position = Vector2(577.75, 325.25)
 scale = Vector2(1156.5, 651.5)
 mesh = SubResource("QuadMesh_dw630")
 texture = ExtResource("2_7ak5k")
 
-[node name="Board" parent="." instance=ExtResource("3_h1y6c")]
+[node name="Board" parent="Game" instance=ExtResource("3_h1y6c")]
 scale = Vector2(3, 3)
 script = ExtResource("4_5gdjf")
 TileScene = ExtResource("5_muokb")
+
+[node name="OverlayUi" type="CanvasLayer" parent="."]
+visible = false
+script = ExtResource("6_h1y6c")
+
+[node name="ColorRect" type="ColorRect" parent="OverlayUi"]
+offset_right = 1155.0
+offset_bottom = 651.0
+color = Color(0.0313726, 0.0196078, 0.0117647, 0.529412)
+
+[node name="Control" type="Control" parent="OverlayUi"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1155.0
+offset_bottom = 649.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="OverlayUi/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("6_7ak5k")
+alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="OverlayUi/Control/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_right = 400
+
+[node name="SaveGameRecord" type="Button" parent="OverlayUi/Control/VBoxContainer/Margin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Save game record"

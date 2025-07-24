@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices.Marshalling;
 
 public partial class GameLogic : Node
@@ -8,6 +9,8 @@ public partial class GameLogic : Node
 	protected (int, int) _activeBlock = (-1, -1);
 
 	protected PlayerColor _playerColor = PlayerColor.None;
+
+	private List<(int, int)> _movesRecord = [];
 
 	private static readonly (int r, int c)[][] WinLines = [
 		// Rows
@@ -62,6 +65,7 @@ public partial class GameLogic : Node
 	protected void Move(int row, int col, PlayerColor color)
 	{
 		_board.PaintTile(row, col, color);
+		_movesRecord.Add((row, col));
 	}
 
 	protected PlayerColor CheckBlock(PlayerColor[,] block)

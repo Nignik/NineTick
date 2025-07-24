@@ -8,7 +8,7 @@
 
 [sub_resource type="QuadMesh" id="QuadMesh_iixfe"]
 
-[node name="Game" type="Node2D" node_paths=PackedStringArray("_board")]
+[node name="OnlineGameScene" type="Node2D" node_paths=PackedStringArray("_board")]
 script = ExtResource("1_128ut")
 _board = NodePath("Board")
 _online = true
