@@ -6,14 +6,23 @@ using System.Diagnostics.Tracing;
 public partial class Game : Node
 {
 	[Export] private Board _board;
+	[Export] private bool _online;
 	private Client _client;
 	private GameLogic _logic;
 
 	public override void _Ready()
 	{
-		_client = new Client();
-		_logic = new GameLogic(_client, _board);
-		AddChild(_client);
+		if (_online)
+		{
+			_client = new Client();
+			_logic = new OnlineGameLogic(_client, _board);
+			AddChild(_client);
+		}
+		else
+		{
+			_logic = new LocalGameLogic(_board);
+		}
+
 		AddChild(_logic);
 	}
 

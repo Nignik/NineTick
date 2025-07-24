@@ -11,6 +11,7 @@
 [node name="Game" type="Node2D" node_paths=PackedStringArray("_board")]
 script = ExtResource("1_otxgx")
 _board = NodePath("Board")
+_online = true
 
 [node name="background" type="MeshInstance2D" parent="."]
 position = Vector2(577.75, 325.25)

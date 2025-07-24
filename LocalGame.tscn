@@ -1,0 +1,24 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6di5njnm67r3"]
+
+[ext_resource type="Script" uid="uid://t0xcldwvfd4g" path="res://scripts/Game.cs" id="1_3xfc0"]
+[ext_resource type="Texture2D" uid="uid://kexrghlobjx6" path="res://textures/background_texture.png" id="1_ea5us"]
+[ext_resource type="PackedScene" uid="uid://rmkot18ivqs6" path="res://blueprints/board.tscn" id="2_3xfc0"]
+[ext_resource type="Script" uid="uid://cflubf12nhjwa" path="res://scripts/Board.cs" id="3_2vdqt"]
+[ext_resource type="PackedScene" uid="uid://ce32m3k2neney" path="res://blueprints/tile.tscn" id="4_l37lr"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_dw630"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("_board")]
+script = ExtResource("1_3xfc0")
+_board = NodePath("Board")
+
+[node name="background" type="MeshInstance2D" parent="."]
+position = Vector2(577.75, 325.25)
+scale = Vector2(1156.5, 651.5)
+mesh = SubResource("QuadMesh_dw630")
+texture = ExtResource("1_ea5us")
+
+[node name="Board" parent="." instance=ExtResource("2_3xfc0")]
+scale = Vector2(3, 3)
+script = ExtResource("3_2vdqt")
+TileScene = ExtResource("4_l37lr")

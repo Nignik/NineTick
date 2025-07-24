@@ -1,14 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://10qmdnl76xaj"]
+[gd_scene load_steps=5 format=3 uid="uid://10qmdnl76xaj"]
 
+[ext_resource type="Script" uid="uid://cgkbpx48mwphr" path="res://scripts/TitleScreen.cs" id="1_ig5kc"]
+[ext_resource type="PackedScene" uid="uid://coft68akqyr0w" path="res://OnlineGame.tscn" id="2_05l2w"]
 [ext_resource type="Theme" uid="uid://bp05q8geqroin" path="res://base_theme.tres" id="2_ak2if"]
+[ext_resource type="PackedScene" uid="uid://b6di5njnm67r3" path="res://LocalGame.tscn" id="3_05l2w"]
 
-[node name="TitleScreen" type="Control"]
+[node name="TitleScreen" type="Control" node_paths=PackedStringArray("_playOnlineButton", "_playLocallyButton", "_quitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ig5kc")
+_onlineGameScene = ExtResource("2_05l2w")
+_localGameScene = ExtResource("3_05l2w")
+_playOnlineButton = NodePath("VBoxContainer/PlayOnlineMargin/PlayOnline")
+_playLocallyButton = NodePath("VBoxContainer/PlayLocallyMargin/PlayeLocally")
+_quitButton = NodePath("VBoxContainer/QuitMargin/Quit")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 0
@@ -26,15 +35,25 @@ grow_vertical = 2
 theme = ExtResource("2_ak2if")
 alignment = 1
 
-[node name="StartMargin" type="MarginContainer" parent="VBoxContainer"]
+[node name="PlayOnlineMargin" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 400
 theme_override_constants/margin_right = 400
 
-[node name="Start" type="Button" parent="VBoxContainer/StartMargin"]
+[node name="PlayOnline" type="Button" parent="VBoxContainer/PlayOnlineMargin"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Play"
+text = "Play Online"
+
+[node name="PlayLocallyMargin" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 400
+theme_override_constants/margin_right = 400
+
+[node name="PlayeLocally" type="Button" parent="VBoxContainer/PlayLocallyMargin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Play Locally"
 
 [node name="QuitMargin" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
